@@ -17,6 +17,7 @@ public class Main {
 	private final static Integer _timeLimitDefaultValue = 10;
 	private static String _inFile = null;
 	private static String _outFile = null;
+	private static Integer _timeLimit;
 	private static Factory<Event> _eventsFactory = null;
 
 	private static void parseArgs(String[] args) {
@@ -33,6 +34,7 @@ public class Main {
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			parseOutFileOption(line);
+			parseStepsOption(line);
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -50,6 +52,7 @@ public class Main {
 			System.exit(1);
 		}
 
+		System.out.println(_timeLimit);
 	}
 
 	private static Options buildOptions() {
@@ -59,7 +62,7 @@ public class Main {
 		cmdLineOptions.addOption(
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
-
+		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulator's main loop (default value is 10)").build());
 		return cmdLineOptions;
 	}
 
@@ -80,6 +83,15 @@ public class Main {
 
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		_outFile = line.getOptionValue("o");
+	}
+	
+	private static void parseStepsOption(CommandLine line) throws ParseException
+	{
+		try {
+			_timeLimit = Integer.parseInt(line.getOptionValue("t", _timeLimitDefaultValue.toString()));
+		} catch(NumberFormatException e) {
+			throw new ParseException("The ticks to the main loop cannot be parsed to an integer.");
+		}
 	}
 
 	private static void initFactories() {
