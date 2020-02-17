@@ -176,4 +176,12 @@ public class Vehicle extends SimulatedObject {
 		return result;
 	}
 
+	int getPosition() {
+		return _currentDistanceInRoad;
+	}
+
+	int getSpeed() {
+		return _currentSpeed;
+	}
+
 }
