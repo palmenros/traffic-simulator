@@ -119,7 +119,7 @@ public class Vehicle extends SimulatedObject {
 
 	}
 
-	void moveToNextRoad() throws Exception {
+	void moveToNextRoad() {
 	
 		//TODO: Review
 		
@@ -150,7 +150,7 @@ public class Vehicle extends SimulatedObject {
 			
 		} else {
 			//TODO: Find more appropiate exception subclass
-			throw new Exception("Vehicle must be waiting or pending");
+			throw new IllegalStateException("Vehicle must be waiting or pending");
 		}
 		
 		
@@ -183,5 +183,18 @@ public class Vehicle extends SimulatedObject {
 	int getSpeed() {
 		return _currentSpeed;
 	}
+
+	Road getCurrentRoad() {
+		return _currentRoad;
+	}
+
+	List<Junction> getItinerary() {
+		return Collections.unmodifiableList(_itinerary);
+	}
+
+	public int getPollutionMeasure() {
+		return _pollutionMeasure;
+	}
+
 
 }

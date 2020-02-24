@@ -33,29 +33,29 @@ public abstract class Road extends SimulatedObject {
 	/**
 	 * Maximum speed of the road
 	 */
-	private int _maxSpeedLimit;
+	protected int _maxSpeedLimit;
 	
 	/**
 	 * Current maximum speed (depending on pollution enz.)
 	 */
-	private int _currentSpeedLimit;
+	protected int _currentSpeedLimit;
 	
 	/**
 	 * Threshold at which restriction are imposed
 	 */
-	private int _pollutionThreshold;
+	protected int _pollutionThreshold;
 	
 	/**
 	 * The current weather on the road
 	 */
-	private Weather _currentWeather;
+	protected Weather _currentWeather;
 	
 	/**
 	 * Current pollution on the road
 	 *
 	 * At the beginning there have been no cars on the road, so there is no pollution
 	 */
-	private int _totalPollution = 0;
+	protected int _totalPollution = 0;
 	
 	/**
 	 * Current vehicles on the road, ordered depending on their position

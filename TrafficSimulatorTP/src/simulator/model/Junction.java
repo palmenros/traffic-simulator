@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Junction extends SimulatedObject {
@@ -56,6 +57,8 @@ public class Junction extends SimulatedObject {
 	 */
 	private int _x, _y;
 	
+	//TODO: Revisar tener actualizadas las listas y los mapas
+	
 	Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(id);
 
@@ -76,20 +79,66 @@ public class Junction extends SimulatedObject {
 	
 	@Override
 	void advance(int time) {
-		// TODO Auto-generated method stub
+		
+		//TODO: Review
+		
+		//Dequeuing
+		
+		if(_greenLightIndex != -1) {
+			//There is a road with a green light
+			List<Vehicle> dequeuedVehicles = _dequeuingStrategy.dequeue( _queueList.get(_greenLightIndex) );
+			for(Vehicle v : dequeuedVehicles) {
+				v.moveToNextRoad();
+			}
+		}
 
+		//Light switching
+		int newIndex = _lightSwitchingStrategy.chooseNextGreen(_incomingRoads, _queueList, _greenLightIndex, _lastLightChangeStep, time);
+		if(_greenLightIndex != newIndex) {
+			_greenLightIndex = newIndex;
+			_lastLightChangeStep = time;
+		}
 	}
 
 	@Override
 	public JSONObject report() {
-		// TODO Auto-generated method stub
-		return null;
+
+		JSONObject result = new JSONObject();
+
+		result.put("id", getId());
+		
+		String greenId;
+		
+		if(_greenLightIndex == -1) {
+			greenId = "none";
+		} else {
+			greenId = _incomingRoads.get(_greenLightIndex).getId();
+		}
+		
+		result.put("green", greenId);
+		
+		JSONArray ja = new JSONArray();
+		for (Map.Entry<Road, List<Vehicle>> entry : _roadQueueMap.entrySet())
+		{
+			JSONObject queueJSON = new JSONObject();
+			queueJSON.put("road", entry.getKey().getId());
+
+			JSONArray vehicleArray = new JSONArray();
+			for(Vehicle v : entry.getValue()) {
+				vehicleArray.put(v.getId());
+			}
+			queueJSON.put("vehicles", vehicleArray);
+			
+			ja.put(queueJSON);
+		}
+		result.put("queues",ja);
+		
+		return result;
 	}
 
 	//TODO: Review visibility
 	void enter(Vehicle vehicle) {
-		// TODO Auto-generated method stub
-		
+		_roadQueueMap.get(vehicle.getCurrentRoad()).add(vehicle);
 	}
 
 	Road roadTo(Junction junction) {
@@ -109,7 +158,10 @@ public class Junction extends SimulatedObject {
 	{
 		if (r.getDestination()!=this) {throw new IllegalArgumentException("the current road's destination is not the current junction");}
 		_incomingRoads.add(r);
-		_queueList.add(new LinkedList<Vehicle>());
+		
+		List<Vehicle> list = new LinkedList<Vehicle>();
+		_queueList.add(list);
+		_roadQueueMap.put(r, list);
 	}
 
 }
