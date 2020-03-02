@@ -106,7 +106,7 @@ public class Vehicle extends SimulatedObject {
 		_totalPollution+=pollutionProduced;
 		_currentRoad.addContamination(pollutionProduced);
 		
-		if (_currentDistanceInRoad == _currentRoad.getLength()) {
+		if (_currentDistanceInRoad >= _currentRoad.getLength()) { //Same as == but the directives say >=
 			
 			//Set vehicle state
 			_status = VehicleStatus.WAITING;	
@@ -136,15 +136,18 @@ public class Vehicle extends SimulatedObject {
 			//Exit road
 			_currentRoad.exit(this);
 
-			//Enter new road	
-			Junction junction = _itinerary.get(_lastJunctionIndex);
-			_currentRoad = junction.roadTo(_itinerary.get(_lastJunctionIndex+1));
 			
-			if(_currentRoad != null) {
+			
+			//Check if the vehicle is at the end of the itinerary
+			if(_lastJunctionIndex + 1 < _itinerary.size()) {
+				//Enter new road
+				Junction junction = _itinerary.get(_lastJunctionIndex);
+				_currentRoad = junction.roadTo(_itinerary.get(_lastJunctionIndex+1));
 				_currentRoad.enter(this);
 				_currentDistanceInRoad = 0;	
 				_status = VehicleStatus.TRAVELING;
 			} else {
+				_currentRoad = null;
 				_status = VehicleStatus.ARRIVED;
 			}
 			
