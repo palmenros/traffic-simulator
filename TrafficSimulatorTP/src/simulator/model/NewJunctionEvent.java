@@ -17,11 +17,16 @@ public class NewJunctionEvent extends Event {
 			DequeuingStrategy dqStrategy, int xCoor, int yCoor)
 	{
 		super(time);
+		
 		this.id = id;
 		this.lsStrategy = lsStrategy;
 		this.dqStrategy = dqStrategy;
 		this.xCoor = xCoor;
 		this.yCoor = yCoor;
+		
+
+		//TODO: Review if lsStrategy and dqStrategy can be null. If not, check and throw exception
+	
 	}
 
 }

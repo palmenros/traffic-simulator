@@ -16,9 +16,8 @@ public abstract class Event implements Comparable<Event> {
 	}
 
 	@Override
-	public int compareTo(Event o) {
-		
-		return this._time-o._time;
+	public int compareTo(Event o) {	
+		return this._time - o._time;
 	}
 
 	abstract void execute(RoadMap map);
