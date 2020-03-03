@@ -67,6 +67,9 @@ public abstract class Road extends SimulatedObject {
 	 */
 	private final Comparator<Vehicle> _vehicleComparator = new Comparator<Vehicle>() {
 		public int compare(Vehicle a, Vehicle b) {
+			//Está mal; no debería ser en orden descendente? Si estás de acuerdo arréglalo
+			//Ver página 7 del pdf
+			//Martín @ 2/3/2020,17:40
 			return  Integer.signum(a.getPosition() - b.getPosition());
 		}
 	};
@@ -122,7 +125,7 @@ public abstract class Road extends SimulatedObject {
 		JSONObject result = new JSONObject();
 
 		result.put("id", getId());
-		result.put("speedLimit", _currentSpeedLimit);
+		result.put("speedlimit", _currentSpeedLimit);
 		result.put("weather", _currentWeather);
 		result.put("co2", _totalPollution);
 		
@@ -174,7 +177,9 @@ public abstract class Road extends SimulatedObject {
 	}
 	
 	//TODO: Review visibility
-	public List<Vehicle> getVehicleList() {
+	//No parece que se use en ningún sitio
+	//Pregunta a Victoria
+	List<Vehicle> getVehicleList() {
 		return Collections.unmodifiableList(_currentVehicles);
 	}
 }

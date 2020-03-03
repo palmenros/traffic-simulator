@@ -2,15 +2,15 @@ package simulator.model;
 
 public class NewJunctionEvent extends Event {
 
-	private String id;
-	private LightSwitchingStrategy lsStrategy;
-	private DequeuingStrategy dqStrategy;
-	private int xCoor;
-	private int yCoor;
+	private String _id;
+	private LightSwitchingStrategy _lsStrategy;
+	private DequeuingStrategy _dqStrategy;
+	private int _xCoor;
+	private int _yCoor;
 	
 	@Override
 	void execute(RoadMap map) {
-		map.addJunction(new Junction(id,lsStrategy,dqStrategy,xCoor,yCoor));
+		map.addJunction(new Junction(_id,_lsStrategy,_dqStrategy,_xCoor,_yCoor));
 	}
 	
 	public NewJunctionEvent(int time, String id, LightSwitchingStrategy lsStrategy,
@@ -18,11 +18,11 @@ public class NewJunctionEvent extends Event {
 	{
 		super(time);
 		
-		this.id = id;
-		this.lsStrategy = lsStrategy;
-		this.dqStrategy = dqStrategy;
-		this.xCoor = xCoor;
-		this.yCoor = yCoor;
+		this._id = id;
+		this._lsStrategy = lsStrategy;
+		this._dqStrategy = dqStrategy;
+		this._xCoor = xCoor;
+		this._yCoor = yCoor;
 		
 
 		//TODO: Review if lsStrategy and dqStrategy can be null. If not, check and throw exception

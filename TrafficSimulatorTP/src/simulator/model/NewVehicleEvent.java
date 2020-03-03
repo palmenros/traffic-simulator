@@ -5,29 +5,29 @@ import java.util.List;
 
 public class NewVehicleEvent extends Event {
 
-	private String id;
-	private int maxSpeed;
-	private int contClass;
-	private List<String> itineraryIds;
+	private String _id;
+	private int _maxSpeed;
+	private int _contClass;
+	private List<String> _itineraryIds;
 
 	public NewVehicleEvent(int time, String id, int maxSpeed, int contClass, List<String> itineraryIds) {
 		super(time);
 
-		this.id = id;
-		this.maxSpeed = maxSpeed;
-		this.contClass = contClass;
-		this.itineraryIds = itineraryIds;
+		this._id = id;
+		this._maxSpeed = maxSpeed;
+		this._contClass = contClass;
+		this._itineraryIds = itineraryIds;
 	}
 
 	@Override
 	void execute(RoadMap map) {
 
 		ArrayList<Junction> itinerary = new ArrayList<Junction>();
-		for(String id : itineraryIds) {
+		for(String id : _itineraryIds) {
 			itinerary.add(map.getJunction(id));
 		}
 		
-		Vehicle vehicle = new Vehicle(id, maxSpeed, contClass, itinerary);
+		Vehicle vehicle = new Vehicle(_id, _maxSpeed, _contClass, itinerary);
 		map.addVehicle(vehicle);
 		vehicle.moveToNextRoad();
 	}

@@ -10,57 +10,57 @@ public class TrafficSimulator {
 	/**
 	 * Road map where all simulation objects are stored
 	 */
-	private RoadMap roadMap;
+	private RoadMap _roadMap;
 	
 	/**
 	 * List of events to be executed. Ordered by event time.
 	 */
-	private List<Event> eventList;
+	private List<Event> _eventList;
 	
 	/**
 	 * Simulation time step
 	 */
-	private int timeStep = 0;
+	private int _timeStep = 0;
 	
 	
 	public TrafficSimulator() {
-		roadMap = new RoadMap();
-		eventList = new SortedArrayList<Event>();
+		_roadMap = new RoadMap();
+		_eventList = new SortedArrayList<Event>();
 	}
 	
 	public void addEvent(Event e) {
-		eventList.add(e);
+		_eventList.add(e);
 	}
 	
 	public void advance() {
-		timeStep++;
+		_timeStep++;
 
-		while(!eventList.isEmpty() && eventList.get(0).getTime() == timeStep) {
-			Event e = eventList.get(0);
-			e.execute(roadMap);
-			eventList.remove(0);
+		while(!_eventList.isEmpty() && _eventList.get(0).getTime() == _timeStep) {
+			Event e = _eventList.get(0);
+			e.execute(_roadMap);
+			_eventList.remove(0);
 		}
 
-		for(Junction junction : roadMap.getJunctions()) {
-			junction.advance(timeStep);
+		for(Junction junction : _roadMap.getJunctions()) {
+			junction.advance(_timeStep);
 		}
 		
-		for(Road road : roadMap.getRoads()) {
-			road.advance(timeStep);
+		for(Road road : _roadMap.getRoads()) {
+			road.advance(_timeStep);
 		}
 	}
 	
 	public void reset() {
-		roadMap.reset();
-		eventList.clear();
-		timeStep = 0;
+		_roadMap.reset();
+		_eventList.clear();
+		_timeStep = 0;
 	}
 	
 	public JSONObject report() {
 		JSONObject result = new JSONObject();
 
-		result.put("time", timeStep);
-		result.put("state", roadMap.report());
+		result.put("time", _timeStep);
+		result.put("state", _roadMap.report());
 		
 		return result;
 	}

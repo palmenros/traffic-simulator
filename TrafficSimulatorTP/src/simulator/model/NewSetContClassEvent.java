@@ -6,11 +6,11 @@ import simulator.misc.Pair;
 
 public class NewSetContClassEvent extends Event {
 
-	private List<Pair<String, Integer>> cs;
+	private List<Pair<String, Integer>> _cs;
 
 	public NewSetContClassEvent(int time, List<Pair<String, Integer>> cs) {
 		super(time);
-		this.cs = cs;
+		this._cs = cs;
 			
 		if(cs == null) {
 			throw new IllegalArgumentException("Contamination vehicle list cannot be null");
@@ -19,7 +19,7 @@ public class NewSetContClassEvent extends Event {
 
 	@Override
 	void execute(RoadMap map) {
-		for(Pair<String, Integer> p : cs) {
+		for(Pair<String, Integer> p : _cs) {
 			Vehicle vehicle = map.getVehicle(p.getFirst());
 			if(vehicle == null) {  
 				throw new IllegalArgumentException("Vehicle in contamination list does not exist");

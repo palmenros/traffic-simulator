@@ -35,7 +35,7 @@ public class Junction extends SimulatedObject {
 	 *	Index of incoming road whose light is green
 	 *	-1 means that all incoming roads have their lights red
 	 */
-	private int _greenLightIndex;
+	private int _greenLightIndex; //No habría que inicializarlo a -1?
 	
 	/**
 	 * Step when greenLightIndex has changed
@@ -86,8 +86,13 @@ public class Junction extends SimulatedObject {
 		
 		if(_greenLightIndex != -1) {
 			//There is a road with a green light
+			
 			List<Vehicle> dequeuedVehicles = _dequeuingStrategy.dequeue( _queueList.get(_greenLightIndex) );
 			for(Vehicle v : dequeuedVehicles) {
+				//Esto está mal; falta retirar los vehículos de las colas con:
+				//_queueList.get(_greenLightIndex).remove(v);
+				//Según el PDF (página 11 abajo) va aquí
+				//Si estás de acuerdo descoméntalo
 				v.moveToNextRoad();
 			}
 		}
@@ -118,13 +123,14 @@ public class Junction extends SimulatedObject {
 		result.put("green", greenId);
 		
 		JSONArray ja = new JSONArray();
-		for (Map.Entry<Road, List<Vehicle>> entry : _roadQueueMap.entrySet())
+		
+		for (Road r : _incomingRoads)
 		{
 			JSONObject queueJSON = new JSONObject();
-			queueJSON.put("road", entry.getKey().getId());
+			queueJSON.put("road", r.getId());
 
 			JSONArray vehicleArray = new JSONArray();
-			for(Vehicle v : entry.getValue()) {
+			for(Vehicle v : _roadQueueMap.get(r)) {
 				vehicleArray.put(v.getId());
 			}
 			queueJSON.put("vehicles", vehicleArray);
@@ -136,7 +142,6 @@ public class Junction extends SimulatedObject {
 		return result;
 	}
 
-	//TODO: Review visibility
 	void enter(Vehicle vehicle) {
 		_roadQueueMap.get(vehicle.getCurrentRoad()).add(vehicle);
 	}

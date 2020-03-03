@@ -5,7 +5,7 @@ public class NewInterCityRoadEvent extends NewRoadEvent {
 	void execute(RoadMap map) {
 		super.execute(map);
 		
-		map.addRoad( new InterCityRoad(id, srcJunction, destJunction, maxSpeed, co2Limit, length, weather) );
+		map.addRoad( new InterCityRoad(_id, _srcJunction, _destJunction, _maxSpeed, _co2Limit, _length, _weather) );
 	}
 	
 	public NewInterCityRoadEvent(int time, String id, String srcJun, String

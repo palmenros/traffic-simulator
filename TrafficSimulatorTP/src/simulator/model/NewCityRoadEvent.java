@@ -6,7 +6,7 @@ public class NewCityRoadEvent extends NewRoadEvent {
 	void execute(RoadMap map) {
 		super.execute(map);
 		
-		map.addRoad( new CityRoad(id, srcJunction, destJunction, maxSpeed, co2Limit, length, weather) );
+		map.addRoad( new CityRoad(_id, _srcJunction, _destJunction, _maxSpeed, _co2Limit, _length, _weather) );
 	}
 	
 	public NewCityRoadEvent(int time, String id, String srcJun, String

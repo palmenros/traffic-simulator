@@ -14,7 +14,7 @@ public class InterCityRoad extends Road {
 
 	@Override
 	void updateSpeedLimit() {
-		_currentSpeedLimit =  _totalPollution > _pollutionThreshold ? (int)(_maxSpeedLimit * 0.5) : _maxSpeedLimit; 
+		_currentSpeedLimit =  (_totalPollution > _pollutionThreshold ? (int)(_maxSpeedLimit * 0.5) : _maxSpeedLimit); 
 	}
 
 	@Override

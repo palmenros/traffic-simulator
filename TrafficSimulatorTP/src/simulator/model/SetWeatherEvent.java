@@ -5,11 +5,11 @@ import simulator.misc.Pair;
 
 public class SetWeatherEvent extends Event {
 
-	private List<Pair<String, Weather>> ws;
+	private List<Pair<String, Weather>> _ws;
 
 	public SetWeatherEvent(int time, List<Pair<String,Weather>> ws) {
 		super(time);
-		this.ws = ws;
+		this._ws = ws;
 			
 		if(ws == null) {
 			throw new IllegalArgumentException("Weather road list cannot be null");
@@ -18,7 +18,7 @@ public class SetWeatherEvent extends Event {
 
 	@Override
 	void execute(RoadMap map) {
-		for(Pair<String, Weather> p : ws) {
+		for(Pair<String, Weather> p : _ws) {
 			Road road = map.getRoad(p.getFirst());
 			if(road == null) {  
 				throw new IllegalArgumentException("Road in weather list does not exist");
