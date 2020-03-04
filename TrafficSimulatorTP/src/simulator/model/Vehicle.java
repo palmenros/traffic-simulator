@@ -102,7 +102,10 @@ public class Vehicle extends SimulatedObject {
 		int previousPosition = _currentDistanceInRoad;
 		_currentDistanceInRoad = Math.min(_currentDistanceInRoad+_currentSpeed, _currentRoad.getLength());
 		
-		int pollutionProduced = _pollutionMeasure*(_currentDistanceInRoad-previousPosition);
+		int deltaPosition = _currentDistanceInRoad-previousPosition;
+		_totalDistance += deltaPosition;
+		
+		int pollutionProduced = _pollutionMeasure*(deltaPosition);
 		_totalPollution+=pollutionProduced;
 		_currentRoad.addContamination(pollutionProduced);
 		
@@ -136,15 +139,17 @@ public class Vehicle extends SimulatedObject {
 			//Exit road
 			_currentRoad.exit(this);
 
-			
-			
 			//Check if the vehicle is at the end of the itinerary
 			if(_lastJunctionIndex + 1 < _itinerary.size()) {
 				//Enter new road
 				Junction junction = _itinerary.get(_lastJunctionIndex);
 				_currentRoad = junction.roadTo(_itinerary.get(_lastJunctionIndex+1));
-				_currentRoad.enter(this);
+				
+				//TODO: ¿Deberia ir _currentDistanceInRoad antes que Road.enter()?
+				//Antes estaba en el orden contrario y saltaba una excepción
 				_currentDistanceInRoad = 0;	
+				_currentRoad.enter(this);
+				
 				_status = VehicleStatus.TRAVELING;
 			} else {
 				_currentRoad = null;

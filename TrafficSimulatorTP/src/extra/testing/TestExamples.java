@@ -53,7 +53,7 @@ public class TestExamples {
 			simulator.launcher.Main.main(new String[] { "-i", inFile, "-o", outFile, "-t", ticks.toString() });
 			System.out.println("OK!");
 		} catch (Exception e) {
-			System.out.println("Failed (exception thrown).");
+			System.out.println("Failed (exception thrown): " + e.getMessage());
 		}
 
 	}
@@ -79,7 +79,7 @@ public class TestExamples {
 				_stdOut.println("Failed (output is not equal)!");
 			}
 		} catch (Exception e) {
-			_stdOut.println("Failed (exception thrown).");
+			_stdOut.println("Failed (exception thrown): " + e.getMessage());
 		}
 
 	}

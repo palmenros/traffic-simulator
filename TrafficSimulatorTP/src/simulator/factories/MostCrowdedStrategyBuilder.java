@@ -9,7 +9,7 @@ public class MostCrowdedStrategyBuilder extends Builder<LightSwitchingStrategy> 
 
 	private static final String TYPE = "most_crowded_lss";
 	
-	MostCrowdedStrategyBuilder() {
+	public MostCrowdedStrategyBuilder() {
 		super(TYPE);
 	}
 

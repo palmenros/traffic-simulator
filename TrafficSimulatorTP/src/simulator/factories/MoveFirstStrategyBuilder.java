@@ -9,7 +9,7 @@ public class MoveFirstStrategyBuilder extends Builder<DequeuingStrategy> {
 
 	private static final String TYPE = "move_first_dqs";
 	
-	MoveFirstStrategyBuilder() {
+	public MoveFirstStrategyBuilder() {
 		super(TYPE);
 	}
 

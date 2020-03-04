@@ -13,7 +13,7 @@ public class NewVehicleEventBuilder extends Builder<Event> {
 
 	private static final String TYPE = "new_vehicle";
 	
-	NewVehicleEventBuilder() {
+	public NewVehicleEventBuilder() {
 		super(TYPE);
 	}
 

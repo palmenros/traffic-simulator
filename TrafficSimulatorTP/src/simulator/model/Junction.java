@@ -35,7 +35,7 @@ public class Junction extends SimulatedObject {
 	 *	Index of incoming road whose light is green
 	 *	-1 means that all incoming roads have their lights red
 	 */
-	private int _greenLightIndex; //No habría que inicializarlo a -1?
+	private int _greenLightIndex = -1; //TODO: Review initialization
 	
 	/**
 	 * Step when greenLightIndex has changed
@@ -89,8 +89,9 @@ public class Junction extends SimulatedObject {
 			
 			List<Vehicle> dequeuedVehicles = _dequeuingStrategy.dequeue( _queueList.get(_greenLightIndex) );
 			for(Vehicle v : dequeuedVehicles) {
+				//TODO: Change
 				//Esto está mal; falta retirar los vehículos de las colas con:
-				//_queueList.get(_greenLightIndex).remove(v);
+				_queueList.get(_greenLightIndex).remove(v);
 				//Según el PDF (página 11 abajo) va aquí
 				//Si estás de acuerdo descoméntalo
 				v.moveToNextRoad();

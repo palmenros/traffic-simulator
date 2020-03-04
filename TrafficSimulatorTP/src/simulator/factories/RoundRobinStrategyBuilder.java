@@ -9,7 +9,7 @@ public class RoundRobinStrategyBuilder extends Builder<LightSwitchingStrategy> {
 
 	private static final String TYPE = "round_robin_lss";
 	
-	RoundRobinStrategyBuilder() {
+	public RoundRobinStrategyBuilder() {
 		super(TYPE);
 	}
 

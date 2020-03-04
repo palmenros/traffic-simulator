@@ -10,7 +10,7 @@ public class MoveAllStrategyBuilder extends Builder<DequeuingStrategy> {
 
 	private static final String TYPE = "most_all_dqs";
 	
-	MoveAllStrategyBuilder() {
+	public MoveAllStrategyBuilder() {
 		super(TYPE);
 	}
 

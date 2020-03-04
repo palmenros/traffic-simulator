@@ -2,6 +2,7 @@ package simulator.control;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 
 import org.json.JSONArray;
@@ -59,8 +60,10 @@ public class Controller {
 		jo.put("states", jarr);
 		
 		//Print JSON to out
-		PrintWriter pw = new PrintWriter(out);
-		pw.println(jo);
+		PrintStream ps = new PrintStream(out);
+		ps.println(jo);
+		ps.flush();
+		ps.close();
 	}
 	
 	public void reset() {
