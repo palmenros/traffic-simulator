@@ -67,10 +67,8 @@ public abstract class Road extends SimulatedObject {
 	 */
 	private final Comparator<Vehicle> _vehicleComparator = new Comparator<Vehicle>() {
 		public int compare(Vehicle a, Vehicle b) {
-			//Está mal; no debería ser en orden descendente? Si estás de acuerdo arréglalo
-			//Ver página 7 del pdf
-			//Martín @ 2/3/2020,17:40
-			return  Integer.signum(a.getPosition() - b.getPosition());
+			//Es en orden descendente (página 7 del pdf)
+			return  Integer.signum(b.getPosition() - a.getPosition());
 		}
 	};
 	

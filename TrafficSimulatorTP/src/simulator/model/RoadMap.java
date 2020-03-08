@@ -134,8 +134,7 @@ public class RoadMap {
 		{
 			roadArray.put(r.report());
 		}
-		result.put("road", roadArray);
-		
+		result.put("roads", roadArray); //Preguntar qué hacemos con ello
 		JSONArray vehicleArray = new JSONArray();
 		for (Vehicle v : _vehicleList)
 		{

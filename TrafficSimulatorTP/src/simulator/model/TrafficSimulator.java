@@ -40,7 +40,6 @@ public class TrafficSimulator {
 			e.execute(_roadMap);
 			_eventList.remove(0);
 		}
-
 		for(Junction junction : _roadMap.getJunctions()) {
 			junction.advance(_timeStep);
 		}
