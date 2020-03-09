@@ -80,7 +80,10 @@ public class Vehicle extends SimulatedObject {
 		if(s < 0) {
 			throw new IllegalArgumentException("Vehicle speed must be non negative");
 		}
-		_currentSpeed = Math.min(s, _maxSpeed);
+		if (_status==VehicleStatus.TRAVELING)
+		{
+			_currentSpeed = Math.min(s, _maxSpeed);
+		}
 	}
 	
 	void setContaminationClass(int c) {
