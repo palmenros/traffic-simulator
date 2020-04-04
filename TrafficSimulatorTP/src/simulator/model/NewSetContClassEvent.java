@@ -29,4 +29,29 @@ public class NewSetContClassEvent extends Event {
 
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder res = new StringBuilder();	
+		res.append("[");
+		
+		boolean first = true;
+		for(Pair<String, Integer> pair : _cs) {
+			if(first) {
+				first = false;
+			} else {
+				res.append(", ");
+			}
+			
+			//Print pair
+			res.append("(");
+			res.append(pair.getFirst());
+			res.append(",");
+			res.append(pair.getSecond());
+			res.append(")");
+		}
+		
+		res.append("]");
+		return res.toString();
+	}
+	
 }

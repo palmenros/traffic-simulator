@@ -40,9 +40,7 @@ public class RoadMap {
 	 * Vehicle id to vehicle map
 	 */
 	private Map<String, Vehicle> _vehicleMap;
-	
-	//TODO: Revisar tener actualizadas las listas y los mapas
-	
+		
 	RoadMap() {
 		_junctionList = new ArrayList<Junction>();
 		_roadList = new ArrayList<Road>();
@@ -134,7 +132,7 @@ public class RoadMap {
 		{
 			roadArray.put(r.report());
 		}
-		result.put("roads", roadArray); //Preguntar qué hacemos con ello
+		result.put("roads", roadArray); //Preguntar quï¿½ hacemos con ello
 		JSONArray vehicleArray = new JSONArray();
 		for (Vehicle v : _vehicleList)
 		{

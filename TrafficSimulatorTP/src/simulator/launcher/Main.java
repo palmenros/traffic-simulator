@@ -1,11 +1,14 @@
 package simulator.launcher;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -21,6 +24,7 @@ import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
 import simulator.model.LightSwitchingStrategy;
 import simulator.model.TrafficSimulator;
+import simulator.view.MainWindow;
 
 public class Main {
 
@@ -29,6 +33,7 @@ public class Main {
 	private static String _outFile = null;
 	private static Integer _timeLimit;
 	private static Factory<Event> _eventsFactory = null;
+	private static boolean _guiMode;
 
 	private static void parseArgs(String[] args) {
 
@@ -42,6 +47,7 @@ public class Main {
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
 			parseHelpOption(line, cmdLineOptions);
+			parseGuiOption(line);
 			parseInFileOption(line);
 			parseOutFileOption(line);
 			parseStepsOption(line);
@@ -66,6 +72,7 @@ public class Main {
 	private static Options buildOptions() {
 		Options cmdLineOptions = new Options();
 
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg().desc("Gui / console").build());
 		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Events input file").build());
 		cmdLineOptions.addOption(
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
@@ -74,6 +81,17 @@ public class Main {
 		return cmdLineOptions;
 	}
 
+	private static void parseGuiOption(CommandLine line) {
+		String str = line.getOptionValue("m", "gui");
+		if("gui".equals(str)) {
+			_guiMode = true;
+		} else if ("console".equals(str)) {
+			_guiMode = false;
+		} else {
+			throw new IllegalArgumentException("Illegal value for mode option");
+		}
+	}
+	
 	private static void parseHelpOption(CommandLine line, Options cmdLineOptions) {
 		if (line.hasOption("h")) {
 			HelpFormatter formatter = new HelpFormatter();
@@ -84,7 +102,7 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null) {
+		if (_inFile == null && !_guiMode) {
 			throw new ParseException("An events file is missing");
 		}
 	}
@@ -136,10 +154,29 @@ public class Main {
 		controller.run(_timeLimit, out);
 	}
 
+	private static void startGuiMode() throws IOException {
+		Controller controller = new Controller(new TrafficSimulator(), _eventsFactory);
+		if(_inFile != null) {
+			controller.loadEvents(new FileInputStream(_inFile));			
+		}
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new MainWindow(controller);
+			}
+		});
+		
+	}
+	
 	private static void start(String[] args) throws IOException {
 		initFactories();
 		parseArgs(args);
-		startBatchMode();
+		if(_guiMode) {
+			startGuiMode();
+		} else {
+			startBatchMode();			
+		}
 	}
 
 	// example command lines:
@@ -147,7 +184,7 @@ public class Main {
 	// -i resources/examples/ex1.json
 	// -i resources/examples/ex1.json -t 300
 	// -i resources/examples/ex1.json -o resources/tmp/ex1.out.json
-	// --help
+	// --help)
 
 	public static void main(String[] args) {
 		try {

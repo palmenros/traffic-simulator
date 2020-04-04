@@ -22,11 +22,11 @@ public class NewJunctionEvent extends Event {
 		this._lsStrategy = lsStrategy;
 		this._dqStrategy = dqStrategy;
 		this._xCoor = xCoor;
-		this._yCoor = yCoor;
-		
-
-		//TODO: Review if lsStrategy and dqStrategy can be null. If not, check and throw exception
-	
+		this._yCoor = yCoor;	
 	}
 
+	@Override
+	public String toString() {
+		return "New Junction '" + _id + "'";
+	}
 }

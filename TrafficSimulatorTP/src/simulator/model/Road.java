@@ -4,13 +4,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.JComponent;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.misc.SortedArrayList;
 
 /**
- * @author Martín Gómez y Pedro Palacios
+ * @author Martï¿½n Gï¿½mez y Pedro Palacios
  *
  */
 public abstract class Road extends SimulatedObject {
@@ -67,7 +69,7 @@ public abstract class Road extends SimulatedObject {
 	 */
 	private final Comparator<Vehicle> _vehicleComparator = new Comparator<Vehicle>() {
 		public int compare(Vehicle a, Vehicle b) {
-			//Es en orden descendente (página 7 del pdf)
+			//Es en orden descendente (pï¿½gina 7 del pdf)
 			return  Integer.signum(b.getPosition() - a.getPosition());
 		}
 	};
@@ -137,10 +139,8 @@ public abstract class Road extends SimulatedObject {
 		return result;
 	}
 
-	//TODO: Review visibility
-	int getLength() {
+	public int getLength() {
 		return _length;
-		
 	}
 
 	void addContamination(int pollutionProduced) {
@@ -174,10 +174,16 @@ public abstract class Road extends SimulatedObject {
 		_currentWeather = weather;
 	}
 	
-	//TODO: Review visibility
-	//No parece que se use en ningún sitio
-	//Pregunta a Victoria
 	List<Vehicle> getVehicleList() {
 		return Collections.unmodifiableList(_currentVehicles);
 	}
+
+	public double getTotalCO2() {
+		return _totalPollution;
+	}
+
+	public double getCO2Limit() {
+		return _pollutionThreshold;
+	}
+
 }

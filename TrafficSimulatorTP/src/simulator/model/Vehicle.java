@@ -7,7 +7,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 /**
- * @author Martín Gómez y Pedro Palacios
+ * @author Martï¿½n Gï¿½mez y Pedro Palacios
  *
  */
 public class Vehicle extends SimulatedObject {
@@ -95,9 +95,7 @@ public class Vehicle extends SimulatedObject {
 	
 	@Override
 	void advance(int time) {
-		
-		//TODO: Review
-		
+				
 		if (_status!=VehicleStatus.TRAVELING) {
 			return;
 		}
@@ -126,9 +124,7 @@ public class Vehicle extends SimulatedObject {
 	}
 
 	void moveToNextRoad() {
-	
-		//TODO: Review
-		
+			
 		if(_status == VehicleStatus.PENDING)
 		{
 			_lastJunctionIndex = 0;
@@ -148,8 +144,6 @@ public class Vehicle extends SimulatedObject {
 				Junction junction = _itinerary.get(_lastJunctionIndex);
 				_currentRoad = junction.roadTo(_itinerary.get(_lastJunctionIndex+1));
 				
-				//TODO: ¿Deberia ir _currentDistanceInRoad antes que Road.enter()?
-				//Antes estaba en el orden contrario y saltaba una excepción
 				_currentDistanceInRoad = 0;	
 				_currentRoad.enter(this);
 				
@@ -160,7 +154,6 @@ public class Vehicle extends SimulatedObject {
 			}
 			
 		} else {
-			//TODO: Find more appropiate exception subclass
 			throw new IllegalStateException("Vehicle must be waiting or pending");
 		}
 		
@@ -195,7 +188,7 @@ public class Vehicle extends SimulatedObject {
 		return _currentSpeed;
 	}
 
-	Road getCurrentRoad() {
+	public Road getCurrentRoad() {
 		return _currentRoad;
 	}
 
@@ -205,6 +198,18 @@ public class Vehicle extends SimulatedObject {
 
 	public int getPollutionMeasure() {
 		return _pollutionMeasure;
+	}
+
+	public double getLocation() {
+		return _currentDistanceInRoad;
+	}
+
+	public double getContClass() {
+		return _pollutionMeasure;
+	}
+
+	public VehicleStatus getStatus() {
+		return _status;
 	}
 
 

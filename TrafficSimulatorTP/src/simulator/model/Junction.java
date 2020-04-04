@@ -1,5 +1,7 @@
 package simulator.model;
 
+import java.awt.RenderingHints;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,7 +37,7 @@ public class Junction extends SimulatedObject {
 	 *	Index of incoming road whose light is green
 	 *	-1 means that all incoming roads have their lights red
 	 */
-	private int _greenLightIndex = -1; //TODO: Review initialization
+	private int _greenLightIndex = -1;
 	
 	/**
 	 * Step when greenLightIndex has changed
@@ -56,9 +58,7 @@ public class Junction extends SimulatedObject {
 	 * Junction coordinates in screen
 	 */
 	private int _x, _y;
-	
-	//TODO: Revisar tener actualizadas las listas y los mapas
-	
+		
 	Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(id);
 
@@ -79,9 +79,7 @@ public class Junction extends SimulatedObject {
 	
 	@Override
 	void advance(int time) {
-		
-		//TODO: Review
-		
+				
 		//Dequeuing
 		
 		if(_greenLightIndex != -1) {
@@ -89,11 +87,7 @@ public class Junction extends SimulatedObject {
 			
 			List<Vehicle> dequeuedVehicles = _dequeuingStrategy.dequeue( _queueList.get(_greenLightIndex) );
 			for(Vehicle v : dequeuedVehicles) {
-				//TODO: Change
-				//Esto está mal; falta retirar los vehículos de las colas con:
 				_queueList.get(_greenLightIndex).remove(v);
-				//Según el PDF (página 11 abajo) va aquí
-				//Si estás de acuerdo descoméntalo
 				v.moveToNextRoad();
 			}
 		}
@@ -168,6 +162,22 @@ public class Junction extends SimulatedObject {
 		List<Vehicle> list = new LinkedList<Vehicle>();
 		_queueList.add(list);
 		_roadQueueMap.put(r, list);
+	}
+
+	public int getX() {
+		return _x;
+	}
+
+	public int getY() {
+		return _y;
+	}
+
+	public int getGreenLightIndex() {
+		return _greenLightIndex;
+	}
+
+	public List<Road> getInRoads() {
+		return Collections.unmodifiableList(_incomingRoads);
 	}
 
 }
