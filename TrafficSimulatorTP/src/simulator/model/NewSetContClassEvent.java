@@ -32,7 +32,7 @@ public class NewSetContClassEvent extends Event {
 	@Override
 	public String toString() {
 		StringBuilder res = new StringBuilder();	
-		res.append("[");
+		res.append("Set Contamination Class [");
 		
 		boolean first = true;
 		for(Pair<String, Integer> pair : _cs) {

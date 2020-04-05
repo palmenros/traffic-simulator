@@ -18,6 +18,9 @@ import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
+
+import simulator.view.EventsTableModel;
+
 import javax.swing.border.Border;
 
 import java.awt.event.ActionEvent;

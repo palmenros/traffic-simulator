@@ -1,15 +1,16 @@
-package extra.jtable;
+package simulator.view;
 
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import extra.jtable.EventEx;
 import simulator.control.Controller;
 import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
-public class EventsTableModel extends AbstractTableModel implements TrafficSimObserver {
+public class VehiclesTableModel extends AbstractTableModel implements TrafficSimObserver {
 
 	/**
 	 * 
@@ -18,13 +19,13 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	
 	private Controller _controller;
 	private List<EventEx> _events;
-	private String[] _colNames = { "#", "Time", "Priority" };
+	private String[] _colNames = { "Id", "Location", "Itinerary", "C02 Class", "Max Speed", "Speed","Total C02", "Distance" };
 
-	public EventsTableModel() {
+	public VehiclesTableModel() {
 		_events=null;
 	}
 
-	public EventsTableModel(Controller ctrl) {
+	public VehiclesTableModel(Controller ctrl) {
 		_controller = ctrl;
 		_controller.addObserver(this);
 	}
@@ -35,7 +36,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 		// en este caso de un ArrayList, hay que notificar los cambios.
 		
 		// We need to notify changes, otherwise the table does not refresh.
-		fireTableDataChanged();;		
+		fireTableDataChanged();		
 	}
 	
 	public void setEventsList(List<EventEx> events) {

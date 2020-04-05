@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import simulator.control.Controller;
 import simulator.model.Event;
@@ -22,8 +21,10 @@ import simulator.model.TrafficSimObserver;
 import simulator.model.Vehicle;
 import simulator.model.VehicleStatus;
 
-public class MapComponent extends JPanel implements TrafficSimObserver {
-
+public class MapByRoadComponent extends JPanel implements TrafficSimObserver {
+	
+	//TODO: Remove everything and create Map By Road
+	
 	private static final long serialVersionUID = 1L;
 
 	private static final int _JRADIUS = 10;
@@ -38,7 +39,7 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 
 	private Image _car;
 
-	MapComponent(Controller ctrl) {
+	MapByRoadComponent(Controller ctrl) {
 		initGUI();
 		ctrl.addObserver(this);
 	}
@@ -242,8 +243,6 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onError(String err) {
-		//TODO: Change where to capture error
-		JOptionPane.showMessageDialog(null, err.toString(), "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 }

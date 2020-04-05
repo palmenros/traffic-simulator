@@ -31,7 +31,7 @@ public class SetWeatherEvent extends Event {
 	@Override
 	public String toString() {
 		StringBuilder res = new StringBuilder();	
-		res.append("[");
+		res.append("Set Weather [");
 		
 		boolean first = true;
 		for(Pair<String, Weather> pair : _ws) {
