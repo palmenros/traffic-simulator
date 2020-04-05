@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -41,7 +42,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		//Center dialog
 		setLocationRelativeTo(null);
 		
-		getContentPane().setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout(5, 5));
 		
 		JLabel text = new JLabel("<html>Schedule an event to change the C02 class of a vehicle after a given number of simulation ticks from now</html>");
 		//text.setSize(new Dimension(100, 500));
@@ -71,9 +72,13 @@ public class ChangeCO2ClassDialog extends JDialog {
 		
 		_okButton = new JButton("Ok");
 		
-		buttonPanel.add(_cancelButton);
-		buttonPanel.add(_okButton);
+		buttonPanel.add(Box.createHorizontalGlue());
 		
+		buttonPanel.add(_cancelButton);
+		buttonPanel.add(Box.createHorizontalStrut(5));
+		buttonPanel.add(_okButton);
+
+		buttonPanel.add(Box.createHorizontalGlue());
 		//TODO: Center buttons
 		
 		add(buttonPanel, BorderLayout.SOUTH);
