@@ -1,14 +1,16 @@
 package simulator.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import extra.jtable.EventEx;
 import simulator.control.Controller;
 import simulator.model.Event;
+import simulator.model.Junction;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
+import simulator.model.Vehicle;
 
 public class VehiclesTableModel extends AbstractTableModel implements TrafficSimObserver {
 
@@ -18,11 +20,11 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 	private static final long serialVersionUID = 1L;
 	
 	private Controller _controller;
-	private List<EventEx> _events;
+	private List<VehicleTransfer> _vehicles;
 	private String[] _colNames = { "Id", "Location", "Itinerary", "C02 Class", "Max Speed", "Speed","Total C02", "Distance" };
 
 	public VehiclesTableModel() {
-		_events=null;
+		_vehicles=null;
 	}
 
 	public VehiclesTableModel(Controller ctrl) {
@@ -39,8 +41,33 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 		fireTableDataChanged();		
 	}
 	
-	public void setEventsList(List<EventEx> events) {
-		_events = events;
+	public void setVehicleList(List<Vehicle> vehicleList) {
+		List<VehicleTransfer> vehicles = new ArrayList<VehicleTransfer>();
+		for(Vehicle v : vehicleList) {
+			
+			//String _id, String _location, List<String> _itinerary, Integer _co2Class, Integer _maxSpeed, Integer _speed, Integer _totalCO2, Integer _distance
+			
+			List<Junction> itineraryJunctions = v.getItinerary();
+			List<String> itinerary = new ArrayList<String>();
+			
+			for(Junction j : itineraryJunctions) {
+				itinerary.add(j.getId());
+			}
+			
+			vehicles.add(new VehicleTransfer(					
+						v.getId(),
+						v.getCurrentRoad().getId() + ":" + Integer.toString(v.getLocation()),
+						itinerary,
+						v.getContClass(),
+						v.getMaxSpeed(),
+						v.getSpeed(),
+						v.getTotalPollution(),
+						v.getTotalDistance()
+					));
+			
+		}
+		
+		_vehicles = vehicles;
 		update();
 	}
 
@@ -70,7 +97,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 	//
 	// the number of row, like those in the events list
 	public int getRowCount() {
-		return _events == null ? 0 : _events.size();
+		return _vehicles == null ? 0 : _vehicles.size();
 	}
 
 	@Override
@@ -84,13 +111,28 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 		Object s = null;
 		switch (columnIndex) {
 		case 0:
-			s = rowIndex;
+			s = _vehicles.get(rowIndex).getId();
 			break;
 		case 1:
-			s = _events.get(rowIndex).getTime();
+			s = _vehicles.get(rowIndex).getLocation();
 			break;
 		case 2:
-			s = _events.get(rowIndex).getPriority();
+			s = _vehicles.get(rowIndex).getItinerary();
+			break;
+		case 3:
+			s = _vehicles.get(rowIndex).getCo2Class();
+			break;
+		case 4:
+			s = _vehicles.get(rowIndex).getMaxSpeed();
+			break;
+		case 5:
+			s = _vehicles.get(rowIndex).getSpeed();
+			break;
+		case 6:
+			s = _vehicles.get(rowIndex).getTotalCO2();
+			break;
+		case 7:
+			s = _vehicles.get(rowIndex).getDistance();
 			break;
 		}
 		return s;
@@ -104,31 +146,24 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		setVehicleList(map.getVehicles());
 	}
 
 	@Override
-	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-		
+	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {		
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		setVehicleList(map.getVehicles());		
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		setVehicleList(map.getVehicles());
 	}
 
 	@Override
-	public void onError(String err) {
-		// TODO Auto-generated method stub
-		
+	public void onError(String err) {		
 	}
 }

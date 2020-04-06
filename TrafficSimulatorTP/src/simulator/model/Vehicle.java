@@ -184,7 +184,7 @@ public class Vehicle extends SimulatedObject {
 		return _currentDistanceInRoad;
 	}
 
-	int getSpeed() {
+	public int getSpeed() {
 		return _currentSpeed;
 	}
 
@@ -192,7 +192,7 @@ public class Vehicle extends SimulatedObject {
 		return _currentRoad;
 	}
 
-	List<Junction> getItinerary() {
+	public List<Junction> getItinerary() {
 		return Collections.unmodifiableList(_itinerary);
 	}
 
@@ -200,16 +200,28 @@ public class Vehicle extends SimulatedObject {
 		return _pollutionMeasure;
 	}
 
-	public double getLocation() {
+	public Integer getLocation() {
 		return _currentDistanceInRoad;
 	}
 
-	public double getContClass() {
+	public Integer getContClass() {
 		return _pollutionMeasure;
 	}
 
 	public VehicleStatus getStatus() {
 		return _status;
+	}
+
+	public Integer getMaxSpeed() {
+		return _maxSpeed;
+	}
+
+	public Integer getTotalPollution() {
+		return _totalPollution;
+	}
+
+	public Integer getTotalDistance() {
+		return _totalDistance;
 	}
 
 

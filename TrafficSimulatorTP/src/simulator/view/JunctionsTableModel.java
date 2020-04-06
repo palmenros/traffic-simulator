@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import extra.jtable.EventEx;
 import simulator.control.Controller;
 import simulator.model.Event;
 import simulator.model.RoadMap;
@@ -18,7 +17,7 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	private static final long serialVersionUID = 1L;
 	
 	private Controller _controller;
-	private List<EventEx> _events;
+	private List<EventTransfer> _events;
 	
 	//TODO: Review if these are the correct _colNames
 	private String[] _colNames = { "Id", "Green", "Queues" };
@@ -41,7 +40,7 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 		fireTableDataChanged();		
 	}
 	
-	public void setEventsList(List<EventEx> events) {
+	public void setEventsList(List<EventTransfer> events) {
 		_events = events;
 		update();
 	}
@@ -92,7 +91,7 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 			s = _events.get(rowIndex).getTime();
 			break;
 		case 2:
-			s = _events.get(rowIndex).getPriority();
+			//s = _events.get(rowIndex).getPriority();
 			break;
 		}
 		return s;

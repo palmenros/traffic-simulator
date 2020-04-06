@@ -50,8 +50,8 @@ public class TestExamples {
 
 		System.out.println("-> Running: " + inFile);
 		try {
-			simulator.launcher.Main.main(new String[] { "-i", inFile, "-o", outFile, "-t", ticks.toString() });
-			System.out.println("OK!");
+			simulator.launcher.Main.main(new String[] {"-m", "console", "-i", inFile, "-o", outFile, "-t", ticks.toString() });
+			System.out.println("OK!"); 
 		} catch (Exception e) {
 			System.out.println("Failed (exception thrown): " + e.getMessage());
 		}
@@ -67,7 +67,7 @@ public class TestExamples {
 		_stdOut.println("-> Running: " + inFile);
 		try {
 			simulator.launcher.Main
-					.main(new String[] { "-i", inFile.getPath(), "-o", myoutFile.getPath(), "-t", ticks.toString() });
+					.main(new String[] {"-m", "console", "-i", inFile.getPath(), "-o", myoutFile.getPath(), "-t", ticks.toString() });
 
 			JSONObject jo1 = new JSONObject(new JSONTokener(new FileInputStream(outFile)));
 			JSONObject jo2 = new JSONObject(new JSONTokener(new FileInputStream(myoutFile)));

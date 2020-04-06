@@ -72,8 +72,8 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		_timeLabel.setText(Integer.toString(time));		
+		_statusLabel.setText("Welcome!");
 	}
 
 	@Override

@@ -178,12 +178,24 @@ public abstract class Road extends SimulatedObject {
 		return Collections.unmodifiableList(_currentVehicles);
 	}
 
-	public double getTotalCO2() {
+	public Integer getTotalCO2() {
 		return _totalPollution;
 	}
 
-	public double getCO2Limit() {
+	public Integer getCO2Limit() {
 		return _pollutionThreshold;
+	}
+
+	public Integer getSpeedLimit() {
+		return _currentSpeedLimit;
+	}
+
+	public Weather getWeather() {
+		return _currentWeather;
+	}
+
+	public Integer getMaxSpeed() {
+		return _maxSpeedLimit;
 	}
 
 }
