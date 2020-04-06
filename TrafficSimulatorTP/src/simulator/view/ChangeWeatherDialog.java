@@ -28,23 +28,24 @@ import javax.swing.border.Border;
 import simulator.control.Controller;
 import simulator.misc.Pair;
 import simulator.model.Event;
-import simulator.model.NewSetContClassEvent;
+import simulator.model.Road;
 import simulator.model.RoadMap;
+import simulator.model.SetWeatherEvent;
 import simulator.model.TrafficSimObserver;
-import simulator.model.Vehicle;
+import simulator.model.Weather;
 
-public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver {
+public class ChangeWeatherDialog extends JDialog implements TrafficSimObserver {
 
 	private JButton _cancelButton;
 	private JButton _okButton;
-	private JComboBox<String> _vehicleCombo;
-	private JComboBox<String> _contaminationCombo;
+	private JComboBox<String> _roadCombo;
+	private JComboBox<String> _weatherCombo;
 	private JSpinner _tickSpinner;
 	private RoadMap _map;
 	private int _time;
 	private Controller _controller;
 	
-	public ChangeCO2ClassDialog(Frame frame, Controller controller) {
+	public ChangeWeatherDialog(Frame frame, Controller controller) {
 		super(frame, false);	
 		setVisible(false);
 		setModal(true);
@@ -54,7 +55,7 @@ public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver 
 	
 	private void initGui()
 	{
-		setTitle("Change C02 class");
+		setTitle("Change weather");
 		
 		//Padding
 		
@@ -72,7 +73,7 @@ public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver 
 		
 		getContentPane().setLayout(new BorderLayout(5, 5));
 		
-		JLabel text = new JLabel("<html>Schedule an event to change the C02 class of a vehicle after a given number of simulation ticks from now</html>");
+		JLabel text = new JLabel("<html>Schedule an event to change the weather of a road after a given number of simulation ticks from now</html>");
 		//text.setSize(new Dimension(100, 500));
 		text.setPreferredSize(new Dimension(500, 40));
 		
@@ -81,31 +82,31 @@ public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 	
-		panel.add(new JLabel("Vehicle: "));
+		panel.add(new JLabel("Road: "));
 
-		List<Vehicle> vehicleList = _map.getVehicles();
-		String[] vehicleIds = new String[vehicleList.size()];
-		int vehicleIndex = 0;
+		List<Road> roadList = _map.getRoads();
+		String[] roadIds = new String[roadList.size()];
+		int roadIndex = 0;
 		
-		for(Vehicle v : vehicleList) {
-			vehicleIds[vehicleIndex] = v.toString();
-			++vehicleIndex;
+		for(Road v : roadList) {
+			roadIds[roadIndex] = v.toString();
+			++roadIndex;
 		}
 		
-		
-		_vehicleCombo = new JComboBox<String>(vehicleIds);	
-		panel.add(_vehicleCombo);
+		_roadCombo = new JComboBox<String>(roadIds);	
+		panel.add(_roadCombo);
 		
 		panel.add(Box.createHorizontalStrut(10));
 		panel.add(new JLabel("CO2 Class: "));
 		
-		String[] co2classes = new String[11];
-		for(int i = 0; i <= 10; ++i) {
-			co2classes[i] = Integer.toString(i);
+		Weather[] weatherList = Weather.values();		
+		String[] weatherStrings = new String[weatherList.length];
+		for(int i = 0; i < weatherList.length; ++i) {
+			weatherStrings[i] = weatherList[i].toString();
 		}
 		
-		_contaminationCombo = new JComboBox<String>(co2classes);
-		panel.add(_contaminationCombo);
+		_weatherCombo = new JComboBox<String>(weatherStrings);
+		panel.add(_weatherCombo);
 		
 		panel.add(Box.createHorizontalStrut(10));
 		panel.add(new JLabel("Ticks: "));
@@ -123,7 +124,7 @@ public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ChangeCO2ClassDialog.this.dispose();
+				ChangeWeatherDialog.this.dispose();
 			}
 			
 		});
@@ -153,19 +154,19 @@ public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver 
 	}
 
 	public void addEvent() {
-		String vehicleId = (String)_vehicleCombo.getSelectedItem();
-		int contClass = _contaminationCombo.getSelectedIndex();
+		String roadID = (String)_roadCombo.getSelectedItem();
+		Weather weather = Weather.valueOf( (String)_weatherCombo.getSelectedItem() );
 		int eventTick = _time + (Integer)_tickSpinner.getValue();
 		
-		if(vehicleId == null) {
-			JOptionPane.showMessageDialog(this, "Vehicle ID not selected", "Error", JOptionPane.ERROR_MESSAGE);			
+		if(roadID == null) {
+			JOptionPane.showMessageDialog(this, "Road ID not selected", "Error", JOptionPane.ERROR_MESSAGE);			
 			return;
 		}
 		
-		List<Pair<String, Integer>> l = new ArrayList<Pair<String, Integer>>();
-		l.add(new Pair<String, Integer>(vehicleId, contClass));
+		List<Pair<String, Weather>> l = new ArrayList<Pair<String, Weather>>();
+		l.add(new Pair<String, Weather>(roadID, weather));
 		
-		_controller.addEvent(new NewSetContClassEvent(eventTick, l));
+		_controller.addEvent(new SetWeatherEvent(eventTick, l));
 		dispose();
 	}
 	

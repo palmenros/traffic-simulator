@@ -47,6 +47,13 @@ public class Controller {
 		}
 	}
 	
+	public void run(int n)
+	{
+		for(int i = 0; i < n; ++i) {
+			simulator.advance();
+		}
+	}
+	
 	public void run(int n, OutputStream out) {
 		
 		JSONObject jo = new JSONObject();

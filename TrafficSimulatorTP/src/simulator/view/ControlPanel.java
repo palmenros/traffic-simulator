@@ -56,6 +56,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		//TODO: Review if it is necessary to add here two separators at beginning
 		
 		_fileOpenButton = new JButton(new ImageIcon("resources/icons/open.png"));
+		_fileOpenButton.setToolTipText("Open events file");
 		_fileOpenButton.setMaximumSize(new Dimension(50, 50));
 		_fileOpenButton.addActionListener(new ActionListener() {
 			@Override
@@ -69,6 +70,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		addSeparator();
 				
 		_contaminationButton = new JButton(new ImageIcon("resources/icons/co2class.png"));
+		_contaminationButton.setToolTipText("Add a new C02 change event");
 		_contaminationButton.setMaximumSize(new Dimension(50, 50));
 		_contaminationButton.addActionListener(new ActionListener() {
 			@Override
@@ -80,25 +82,52 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		add(_contaminationButton);		
 		
 		_weatherButton = new JButton(new ImageIcon("resources/icons/weather.png"));
+		_weatherButton.setToolTipText("Add a new weather change event");
 		_weatherButton.setMaximumSize(new Dimension(50, 50));
+		_weatherButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				changeWeather();
+			}
+		});
 		add(_weatherButton);
 		
 		addSeparator();
 		
 		_runButton = new JButton(new ImageIcon("resources/icons/run.png"));
+		_runButton.setToolTipText("Run the simulation");
 		_runButton.setMaximumSize(new Dimension(50, 50));
+		_runButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				_stopped = false;
+				enableToolBar(false);
+				run_sim((Integer)_tickSpinner.getValue());
+			}			
+		});
+		
 		add(_runButton);
 		
 		_stopButton = new JButton(new ImageIcon("resources/icons/stop.png"));
+		_stopButton.setToolTipText("Stop the simulation");
 		_stopButton.setMaximumSize(new Dimension(50, 50));
+		_stopButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				_stopped = true;				
+			}
+			
+		});
 		add(_stopButton);
 		
 		addSeparator();
 		
 		add(new JLabel("Ticks:"));
 		
-		_tickSpinner = new JSpinner(new SpinnerNumberModel(10, 0, null, 1));
-	
+		_tickSpinner = new JSpinner(new SpinnerNumberModel(10, 1, null, 1));
+		_tickSpinner.setToolTipText("Ticks to advance");
 		_tickSpinner.setMaximumSize(new Dimension(70, 50));
 		_tickSpinner.setPreferredSize(new Dimension(70, 50));
 		
@@ -131,8 +160,13 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	
 	}
 	
+	protected void changeWeather() {
+		ChangeWeatherDialog dialog = new ChangeWeatherDialog(null, _controller);
+		dialog.setVisible(true);		
+	}
+
 	protected void changeC02Class() {
-		ChangeCO2ClassDialog dialog = new ChangeCO2ClassDialog(null);
+		ChangeCO2ClassDialog dialog = new ChangeCO2ClassDialog(null, _controller);
 		dialog.setVisible(true);
 	}
 
@@ -176,8 +210,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private void run_sim(int n) {
 		if (n > 0 && !_stopped) {
 			try {
-				//TODO: Uncomment and view correct parameters for _controller.run()
-				//_controller.run(1);
+				_controller.run(1);
 			} catch (Exception e) {
 				// TODO show error message
 				_stopped = true;
@@ -197,8 +230,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 	
 	private void enableToolBar(boolean b) {
-		// TODO Auto-generated method stub
-		
+		_fileOpenButton.setEnabled(b);
+		_contaminationButton.setEnabled(b);
+		_weatherButton.setEnabled(b);
+		_runButton.setEnabled(b);
+		_closeButton.setEnabled(b);
 	}
 
 	private void stop() {
@@ -207,37 +243,26 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onError(String err) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }

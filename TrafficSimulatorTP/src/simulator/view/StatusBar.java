@@ -25,7 +25,6 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 	private JLabel _timeLabel;
 	private JLabel _statusLabel;
 	
-	
 	public StatusBar(Controller controller) {
 		_controller = controller;
 		_controller.addObserver(this);
