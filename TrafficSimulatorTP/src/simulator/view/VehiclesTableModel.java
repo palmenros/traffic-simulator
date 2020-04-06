@@ -54,9 +54,30 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 				itinerary.add(j.getId());
 			}
 			
+			//TODO: Review location text
+			String locationText = "";
+			
+			switch(v.getStatus()) {
+			case ARRIVED:
+				locationText = "Arrived";
+				break;
+			case PENDING:
+				//TODO: Review if something should be here
+				break;
+			case TRAVELING:
+				locationText = v.getCurrentRoad().getId() + ":" + Integer.toString(v.getLocation());				
+				break;
+			case WAITING:
+				//TODO: Review, review and review. Really: review
+				locationText = "Waiting:" +  v.getCurrentRoad().getDestination().getId();
+				break;
+			default:
+				break;				
+			}
+									
 			vehicles.add(new VehicleTransfer(					
 						v.getId(),
-						v.getCurrentRoad().getId() + ":" + Integer.toString(v.getLocation()),
+						locationText,
 						itinerary,
 						v.getContClass(),
 						v.getMaxSpeed(),

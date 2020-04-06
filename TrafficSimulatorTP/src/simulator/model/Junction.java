@@ -180,4 +180,7 @@ public class Junction extends SimulatedObject {
 		return Collections.unmodifiableList(_incomingRoads);
 	}
 
+	public List<List<Vehicle>> getQueues() {
+		return Collections.unmodifiableList(_queueList);
+	}
 }
