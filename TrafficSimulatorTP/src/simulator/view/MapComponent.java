@@ -54,7 +54,7 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 		// clear with a background color
-		g.setColor(_BG_COLOR);
+		g.setBackground(_BG_COLOR);
 		g.clearRect(0, 0, getWidth(), getHeight());
 
 		if (_map == null || _map.getJunctions().size() == 0) {
@@ -157,6 +157,8 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 	// this method is used to update the preffered and actual size of the component,
 	// so when we draw outside the visible area the scrollbars show up
 	private void updatePrefferedSize() {
+		//TODO: Maybe uncomment?
+		/*
 		int maxW = 200;
 		int maxH = 200;
 		for (Junction j : _map.getJunctions()) {
@@ -167,6 +169,7 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 		maxH += 20;
 		setPreferredSize(new Dimension(maxW, maxH));
 		setSize(new Dimension(maxW, maxH));
+		*/
 	}
 
 	// This method draws a line from (x1,y1) to (x2,y2) with an arrow.

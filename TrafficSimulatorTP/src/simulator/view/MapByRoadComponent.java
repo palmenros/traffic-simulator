@@ -27,14 +27,23 @@ public class MapByRoadComponent extends JPanel implements TrafficSimObserver {
 	
 	private static final long serialVersionUID = 1L;
 
-	private static final int _JRADIUS = 10;
-
 	private static final Color _BG_COLOR = Color.WHITE;
+	private static final Color _JUNCTION_COLOR = Color.BLUE;
+	private static final Color _JUNCTION_LABEL_COLOR = new Color(200, 100, 0);
+	private static final Color _GREEN_LIGHT_COLOR = Color.GREEN;
+	private static final Color _RED_LIGHT_COLOR = Color.RED;
+	private static final Color _ROAD_LABEL_COLOR = Color.BLACK ;
 
 	private RoadMap _map;
 
 	private Image _car;
 	private Image[] _contamination = new Image[6];
+	
+	private Image _rain;
+	private Image _cloud;
+	private Image _storm;
+	private Image _wind;
+	private Image _sun;
 	
 	MapByRoadComponent(Controller ctrl) {
 		setPreferredSize(new Dimension(300, 200));
@@ -43,6 +52,13 @@ public class MapByRoadComponent extends JPanel implements TrafficSimObserver {
 	}
 
 	private void initGUI() {
+		
+		_rain = loadImage("rain.png");
+		_cloud = loadImage("cloud.png");
+		_storm = loadImage("storm.png");
+		_wind = loadImage("wind.png");
+		_sun = loadImage("sun.png");
+		
 		_car = loadImage("car.png");
 		for(int i = 0; i < _contamination.length; ++i) {
 			_contamination[i] = loadImage("cont_" + i + ".png");
@@ -56,14 +72,14 @@ public class MapByRoadComponent extends JPanel implements TrafficSimObserver {
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 		// clear with a background color
-		g.setColor(_BG_COLOR);
+		g.setBackground(_BG_COLOR);
 		g.clearRect(0, 0, getWidth(), getHeight());
-
+		
 		if (_map == null || _map.getRoads().size() == 0) {
 			g.setColor(Color.red);
 			g.drawString("No map yet!", getWidth() / 2 - 50, getHeight() / 2);
 		} else {
-			updatePrefferedSize();
+			//updatePrefferedSize();
 			drawMap(g);
 		}
 	}
@@ -92,31 +108,86 @@ public class MapByRoadComponent extends JPanel implements TrafficSimObserver {
 		//Dibujar circulo al comienzo del cruce
 		int radius = 10;
 		
-		g.setColor(Color.blue);
+		g.setColor(_JUNCTION_COLOR);
 		g.fillOval(startX - radius / 2, y - radius / 2, radius, radius);
 		
+		g.setColor(_JUNCTION_LABEL_COLOR);
+		g.drawString(origin.getId(), startX - 5, y - 10);
+		
+		boolean roadIsGreen = false;
+		
 		//Dibujar circulo al final del cruce
-		boolean green = destination.isRoadGreen(r.getId());
-	
+		//boolean green = destination.isRoadGreen(r.getId());
+		int greenLightIndex = destination.getGreenLightIndex();
+		if(greenLightIndex != -1)
+		{
+			roadIsGreen = destination.getInRoads().get(greenLightIndex) == r;
+		}
+
+		Color color;
+		if(roadIsGreen) {
+			color = _GREEN_LIGHT_COLOR;
+		} else {
+			color = _RED_LIGHT_COLOR;
+		}
+		
+		g.setColor(color);
+		g.fillOval(endX - radius / 2, y - radius / 2, radius, radius);
+		
+		g.setColor(_JUNCTION_LABEL_COLOR);
+		g.drawString(destination.getId(), endX - 5, y - 10);
+		
+		//Draw cars
+		for(Vehicle v : r.getVehicles()) {
+			int vehicleX = startX + (int) ((endX - startX) * ((double) v.getLocation() / (double) r.getLength()));
+			int side = 16;
+			g.drawImage(_car, vehicleX - side / 2, y - side / 2, side, side, this);
+
+			int vLabelColor = (int) (25.0 * (10.0 - (double) v.getContClass()));
+			g.setColor(new Color(0, vLabelColor, 0));
+
+			g.drawString(v.getId(), vehicleX - 6, y - 6);
+		}
+		
+		//Draw road id
+		g.setColor(_ROAD_LABEL_COLOR );
+		g.drawString(r.getId(), startX - 40, y + 5);
+		
+		
+		//Draw weather
+		
+		Image weatherImage = null; 
+		
+		switch(r.getWeather()) {
+		case CLOUDY:
+			weatherImage = _cloud;
+			break;
+		case RAINY:
+			weatherImage = _rain;
+			break;
+		case STORM:
+			weatherImage = _storm;
+			break;
+		case SUNNY:
+			weatherImage = _sun;
+			break;
+		case WINDY:
+			weatherImage = _wind;
+			break;
+		default:
+			break;
+		}
+		
+		int weatherSide = 32;
+		int padding = 30;
+		g.drawImage(weatherImage, endX + padding - weatherSide / 2, y - weatherSide / 2, weatherSide, weatherSide, this);
+		
+		//Draw contamination
+		int contaminationPadding = 10;
+		int C = (int) Math.floor(Math.min((double) r.getTotalCO2()/(1.0 + (double) r.getCO2Limit()),1.0) / 0.19);
+		g.drawImage(_contamination[C], endX + contaminationPadding + weatherSide + padding - weatherSide / 2, y - weatherSide / 2, weatherSide, weatherSide, this);
 		
 	}
-	
-
-	// this method is used to update the preffered and actual size of the component,
-	// so when we draw outside the visible area the scrollbars show up
-	private void updatePrefferedSize() {
-		int maxW = 200;
-		int maxH = 200;
-		for (Junction j : _map.getJunctions()) {
-			maxW = Math.max(maxW, j.getX());
-			maxH = Math.max(maxH, j.getY());
-		}
-		maxW += 20;
-		maxH += 20;
-		setPreferredSize(new Dimension(maxW, maxH));
-		setSize(new Dimension(maxW, maxH));
-	}
-
 	
 
 	// loads an image from a file

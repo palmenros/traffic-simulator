@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -196,6 +197,10 @@ public abstract class Road extends SimulatedObject {
 
 	public Integer getMaxSpeed() {
 		return _maxSpeedLimit;
+	}
+	
+	public List<Vehicle> getVehicles() {
+		return Collections.unmodifiableList(_currentVehicles);
 	}
 
 }
