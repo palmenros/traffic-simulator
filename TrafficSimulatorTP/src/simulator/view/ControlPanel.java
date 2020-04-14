@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
+import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -33,7 +34,7 @@ import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
-public class ControlPanel extends JPanel implements TrafficSimObserver {
+public class ControlPanel extends JToolBar implements TrafficSimObserver {
 	
 	private Controller _controller;
 	private boolean _stopped;
@@ -51,13 +52,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		_controller = controller;
 		_controller.addObserver(this);
 		
-		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		
-		//TODO: Review if it is necessary to add here two separators at beginning
-		
+		//TODO: Maybe fully remove commented setMaximumSize, to clean source code
+	
 		_fileOpenButton = new JButton(new ImageIcon("resources/icons/open.png"));
 		_fileOpenButton.setToolTipText("Open events file");
-		_fileOpenButton.setMaximumSize(new Dimension(50, 50));
+		//_fileOpenButton.setMaximumSize(new Dimension(50, 50));
 		_fileOpenButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -71,7 +70,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				
 		_contaminationButton = new JButton(new ImageIcon("resources/icons/co2class.png"));
 		_contaminationButton.setToolTipText("Add a new C02 change event");
-		_contaminationButton.setMaximumSize(new Dimension(50, 50));
+		//_contaminationButton.setMaximumSize(new Dimension(50, 50));
 		_contaminationButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -83,7 +82,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		
 		_weatherButton = new JButton(new ImageIcon("resources/icons/weather.png"));
 		_weatherButton.setToolTipText("Add a new weather change event");
-		_weatherButton.setMaximumSize(new Dimension(50, 50));
+		//_weatherButton.setMaximumSize(new Dimension(50, 50));
 		_weatherButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -96,7 +95,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		
 		_runButton = new JButton(new ImageIcon("resources/icons/run.png"));
 		_runButton.setToolTipText("Run the simulation");
-		_runButton.setMaximumSize(new Dimension(50, 50));
+		//_runButton.setMaximumSize(new Dimension(50, 50));
 		_runButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -111,7 +110,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		
 		_stopButton = new JButton(new ImageIcon("resources/icons/stop.png"));
 		_stopButton.setToolTipText("Stop the simulation");
-		_stopButton.setMaximumSize(new Dimension(50, 50));
+		//_stopButton.setMaximumSize(new Dimension(50, 50));
 		_stopButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -128,19 +127,16 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		
 		_tickSpinner = new JSpinner(new SpinnerNumberModel(10, 1, null, 1));
 		_tickSpinner.setToolTipText("Ticks to advance");
-		_tickSpinner.setMaximumSize(new Dimension(70, 50));
-		_tickSpinner.setPreferredSize(new Dimension(70, 50));
+		_tickSpinner.setMaximumSize(new Dimension(70, 35));
+		_tickSpinner.setPreferredSize(new Dimension(70, 35));
 		
 		add(_tickSpinner);
-		
-		//Actual graphical separation
-		add(new JSeparator());
-		
+				
 		//Visual separator indication
 		addSeparator();
 		
 		_closeButton = new JButton(new ImageIcon("resources/icons/exit.png"));
-		_closeButton.setMaximumSize(new Dimension(50, 50));
+		//_closeButton.setMaximumSize(new Dimension(50, 50));
 		
 		_closeButton.addActionListener(new ActionListener() {
 
@@ -156,8 +152,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			}
 			
 		});
+
+		add(Box.createGlue()); 
 		add(_closeButton);
-	
 	}
 	
 	protected void changeWeather() {
@@ -195,16 +192,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			JOptionPane.showMessageDialog(this, "Error opening file", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		
-	}
-
-	//TODO: Find if best way to add separator
-	private void addSeparator()
-	{
-		add(Box.createHorizontalStrut(5));
-		JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
-		separator.setMaximumSize(new Dimension(1, 50));
-		add(separator);
-		add(Box.createHorizontalStrut(5));
 	}
 
 	private void run_sim(int n) {

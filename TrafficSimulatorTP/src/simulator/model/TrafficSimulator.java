@@ -37,10 +37,15 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 	}
 	
 	//TODO: Where should we catch onError observer?
-	//TODO: Should all functions have try and catch?
+	//TODO: Test on error message
 	
 	public void addEvent(Event e) {
 		try {
+			
+			if(e.getTime() < _timeStep) {
+				throw new IllegalArgumentException("Event time is less than current time");
+			}
+			
 			_eventList.add(e);
 			for(TrafficSimObserver o : _observerList) {
 				//We pass the RoadMap because all of its getters return unmodifiable lists / objects
@@ -89,67 +94,33 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 	}
 	
 	public void reset() {
-		try {
-			_roadMap.reset();
-			_eventList.clear();
-			_timeStep = 0;
+		_roadMap.reset();
+		_eventList.clear();
+		_timeStep = 0;
 			
-			for(TrafficSimObserver o : _observerList) {
-				//We pass the RoadMap because all of its getters return unmodifiable lists / objects
-				o.onReset(_roadMap, Collections.unmodifiableList(_eventList), _timeStep);
-			}
-		} catch(Exception exception) {
-			for(TrafficSimObserver o : _observerList) {
-				o.onError(exception.getMessage());
-			}	
-			throw exception;
+		for(TrafficSimObserver o : _observerList) {
+			//We pass the RoadMap because all of its getters return unmodifiable lists / objects
+			o.onReset(_roadMap, Collections.unmodifiableList(_eventList), _timeStep);
 		}
 	}
 	
 	public JSONObject report() {
-		try {
-			JSONObject result = new JSONObject();
+		JSONObject result = new JSONObject();
 	
-			result.put("time", _timeStep);
-			result.put("state", _roadMap.report());
-			return result;
-			
-		} catch(Exception exception) {
-			for(TrafficSimObserver o : _observerList) {
-				o.onError(exception.getMessage());
-			}	
-			throw exception;
-		}
+		result.put("time", _timeStep);
+		result.put("state", _roadMap.report());
+		return result;
 	}
 
 	@Override
 	public void addObserver(TrafficSimObserver o) {
-		try {
-			_observerList.add(o);
+		_observerList.add(o);
 			
-			//TODO: Call on register before or after adding new observer?
-			//TODO: Call on register on all observers or only one?
-			for(TrafficSimObserver obj : _observerList) {
-				//We pass the RoadMap because all of its getters return unmodifiable lists / objects
-				obj.onRegister(_roadMap, Collections.unmodifiableList(_eventList), _timeStep);
-			}
-		} catch(Exception exception) {
-			for(TrafficSimObserver obj : _observerList) {
-				obj.onError(exception.getMessage());
-			}	
-			throw exception;
-		}
+		o.onRegister(_roadMap, Collections.unmodifiableList(_eventList), _timeStep);
 	}
 
 	@Override
 	public void removeObserver(TrafficSimObserver o) {
-		try {
-			_observerList.remove(o);
-		} catch(Exception exception) {
-			for(TrafficSimObserver obj : _observerList) {
-				obj.onError(exception.getMessage());
-			}	
-			throw exception;
-		}
+		_observerList.remove(o);
 	}
 }

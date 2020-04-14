@@ -1,11 +1,8 @@
 package simulator.view;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;

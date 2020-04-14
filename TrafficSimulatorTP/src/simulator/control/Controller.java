@@ -47,31 +47,37 @@ public class Controller {
 		}
 	}
 	
+	//TODO: Review that command line mode still works properly
 	public void run(int n)
 	{
-		for(int i = 0; i < n; ++i) {
-			simulator.advance();
-		}
+		run(n, null);
 	}
 	
 	public void run(int n, OutputStream out) {
 		
 		JSONObject jo = new JSONObject();
 		JSONArray jarr = new JSONArray();
-		
-		
+				
 		for(int i = 0; i < n; i++) {
 			simulator.advance();
-			jarr.put(simulator.report());
+			
+			//For performance reasons (branch predictors will eliminate the cost of this if), 
+			//we won't update the JSON objects if they aren't going to be displayed
+			if(out != null) {
+				jarr.put(simulator.report());				
+			}
 		}
 		
-		jo.put("states", jarr);
-		
-		//Print JSON to out
-		PrintStream ps = new PrintStream(out);
-		ps.println(jo);
-		ps.flush();
-		ps.close();
+		//Only display if out is not null
+		if(out != null) {
+			jo.put("states", jarr);
+			
+			//Print JSON to out
+			PrintStream ps = new PrintStream(out);
+			ps.println(jo);
+			ps.flush();
+			ps.close();			
+		}
 	}
 	
 	public void reset() {

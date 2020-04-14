@@ -79,11 +79,29 @@ public class MapByRoadComponent extends JPanel implements TrafficSimObserver {
 			g.setColor(Color.red);
 			g.drawString("No map yet!", getWidth() / 2 - 50, getHeight() / 2);
 		} else {
-			//updatePrefferedSize();
+			updatePrefferedSize();
 			drawMap(g);
 		}
 	}
 
+	private void updatePrefferedSize() {
+		
+		int maxW = 200;
+		int maxH = 200;
+		for (Junction j : _map.getJunctions()) {
+			maxW = Math.max(maxW, j.getX());
+			maxH = Math.max(maxH, j.getY());
+		}
+		maxW += 20;
+		maxH += 20;
+		
+		if (maxW > getWidth() || maxH > getHeight()) {
+			setPreferredSize(new Dimension(maxW, maxH));
+			setSize(new Dimension(maxW, maxH));
+		}		
+	}
+
+	
 	private void drawMap(Graphics g) {
 		int i = 0;
 		for(Road r : _map.getRoads()) {
