@@ -67,7 +67,8 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 		add(_fileOpenButton);
 		
 		addSeparator();
-				
+			
+		//TODO: Maybe change ImageIcon URI with this.getClass().getResource("path")
 		_contaminationButton = new JButton(new ImageIcon("resources/icons/co2class.png"));
 		_contaminationButton.setToolTipText("Add a new C02 change event");
 		//_contaminationButton.setMaximumSize(new Dimension(50, 50));
@@ -177,6 +178,7 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 			switch(res)
 			{
 				case JFileChooser.CANCEL_OPTION:
+					//TODO: Maybe remove this, is annoying
 					JOptionPane.showMessageDialog(this, "Cancelled", "Info", JOptionPane.INFORMATION_MESSAGE);
 					break;
 				case JFileChooser.APPROVE_OPTION:

@@ -157,6 +157,7 @@ public class Main {
 	private static void startGuiMode() throws IOException {
 		Controller controller = new Controller(new TrafficSimulator(), _eventsFactory);
 		if(_inFile != null) {
+			//TODO: If _inFile is invalid,  maybe handle this error inside GUI?
 			controller.loadEvents(new FileInputStream(_inFile));			
 		}
 		
