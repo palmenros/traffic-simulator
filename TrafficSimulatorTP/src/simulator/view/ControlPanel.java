@@ -143,7 +143,7 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int n = JOptionPane.showOptionDialog(ControlPanel.this,
+				int n = JOptionPane.showOptionDialog(ControlPanel.this.getParent(),
 						"Are sure you want to exit?", "Exit",
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE, null, null, null);
