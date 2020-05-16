@@ -54,7 +54,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 				itinerary.add(j.getId());
 			}
 			
-			//TODO: Review location text
+			
 			String locationText = "";
 			
 			switch(v.getStatus()) {
@@ -62,13 +62,13 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 				locationText = "Arrived";
 				break;
 			case PENDING:
-				//TODO: Review if something should be here
+				locationText = "Pending";
 				break;
 			case TRAVELING:
 				locationText = v.getCurrentRoad().getId() + ":" + Integer.toString(v.getLocation());				
 				break;
 			case WAITING:
-				//TODO: Review, review and review. Really: review
+				
 				locationText = "Waiting:" +  v.getCurrentRoad().getDestination().getId();
 				break;
 			default:
@@ -161,7 +161,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

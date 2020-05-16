@@ -34,7 +34,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 		
 		_timeLabel = new JLabel("0");
 			
-		//TODO: Give _timeLabel a minimum size so there is a space between
+		
 		add(_timeLabel);
 		
 		add(Box.createHorizontalStrut(5));
@@ -59,7 +59,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -75,13 +75,13 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public void onError(String err) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	

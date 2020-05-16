@@ -23,7 +23,7 @@ import simulator.model.VehicleStatus;
 
 public class MapByRoadComponent extends JPanel implements TrafficSimObserver {
 	
-	//TODO: Remove everything and create Map By Road
+	
 	
 	private static final long serialVersionUID = 1L;
 

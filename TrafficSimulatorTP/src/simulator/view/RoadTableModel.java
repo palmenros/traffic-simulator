@@ -22,7 +22,6 @@ public class RoadTableModel extends AbstractTableModel implements TrafficSimObse
 	private Controller _controller;
 	private List<RoadTransfer> _roads;
 	
-	//TODO: Review if these are the correct _colNames
 	private String[] _colNames = { "Id", "Length", "Weather", "Max Speed", "Speed Limit", "Total C02", "CO2 Limit" };
 
 	public RoadTableModel() {

@@ -23,7 +23,7 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	private Controller _controller;
 	private List<JunctionTransfer> _junctions;
 	
-	//TODO: Review if these are the correct _colNames
+	
 	private String[] _colNames = { "Id", "Green", "Queues" };
 
 	public JunctionsTableModel() {

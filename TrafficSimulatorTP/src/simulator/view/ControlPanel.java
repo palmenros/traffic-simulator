@@ -52,7 +52,7 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 		_controller = controller;
 		_controller.addObserver(this);
 		
-		//TODO: Maybe fully remove commented setMaximumSize, to clean source code
+		
 	
 		_fileOpenButton = new JButton(new ImageIcon("resources/icons/open.png"));
 		_fileOpenButton.setToolTipText("Open events file");
@@ -68,7 +68,7 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 		
 		addSeparator();
 			
-		//TODO: Maybe change ImageIcon URI with this.getClass().getResource("path")
+		
 		_contaminationButton = new JButton(new ImageIcon("resources/icons/co2class.png"));
 		_contaminationButton.setToolTipText("Add a new C02 change event");
 		//_contaminationButton.setMaximumSize(new Dimension(50, 50));
@@ -178,8 +178,8 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 			switch(res)
 			{
 				case JFileChooser.CANCEL_OPTION:
-					//TODO: Maybe remove this, is annoying
-					JOptionPane.showMessageDialog(this, "Cancelled", "Info", JOptionPane.INFORMATION_MESSAGE);
+					//Removed this, it was annoying and not mandatory
+					//JOptionPane.showMessageDialog(this, "Cancelled", "Info", JOptionPane.INFORMATION_MESSAGE);
 					break;
 				case JFileChooser.APPROVE_OPTION:
 					_controller.reset();

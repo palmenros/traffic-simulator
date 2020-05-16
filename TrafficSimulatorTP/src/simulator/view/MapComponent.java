@@ -246,7 +246,7 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onError(String err) {
-		//TODO: Change where to capture error
+		
 		JOptionPane.showMessageDialog(null, err.toString(), "Error", JOptionPane.ERROR_MESSAGE);
 	}
 

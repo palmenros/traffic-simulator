@@ -20,7 +20,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	private Controller _controller;
 	private List<EventTransfer> _events;
 	
-	//TODO: Review if these are the correct _colNames
+	
 	private String[] _colNames = { "Time", "Description" };
 
 	public EventsTableModel(Controller ctrl) {

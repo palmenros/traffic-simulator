@@ -36,8 +36,6 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 		_observerList = new ArrayList<TrafficSimObserver>();
 	}
 	
-	//TODO: Where should we catch onError observer?
-	//TODO: Test on error message
 	
 	public void addEvent(Event e) {
 		try {
