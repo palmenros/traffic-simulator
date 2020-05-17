@@ -47,7 +47,6 @@ public class Controller {
 		}
 	}
 	
-	//TODO: Review that command line mode still works properly
 	public void run(int n)
 	{
 		run(n, null);

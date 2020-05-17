@@ -1,5 +1,7 @@
 package simulator.view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -34,7 +36,10 @@ import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
-public class ControlPanel extends JToolBar implements TrafficSimObserver {
+//Conceptually extending JToolbar would be a better fit.
+//However, we did this way, extending JPanel because of 
+//instructions given on statement.
+public class ControlPanel extends JPanel implements TrafficSimObserver {
 	
 	private Controller _controller;
 	private boolean _stopped;
@@ -46,12 +51,14 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 	private JButton _stopButton;
 	private JSpinner _tickSpinner;
 	private JButton _closeButton;
+	private JToolBar _toolbar;
 	
 	public ControlPanel(Controller controller)
 	{
 		_controller = controller;
 		_controller.addObserver(this);
 		
+		_toolbar = new JToolBar();
 		
 	
 		_fileOpenButton = new JButton(new ImageIcon("resources/icons/open.png"));
@@ -64,9 +71,9 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 			}
 		});
 		
-		add(_fileOpenButton);
+		_toolbar.add(_fileOpenButton);
 		
-		addSeparator();
+		_toolbar.addSeparator();
 			
 		
 		_contaminationButton = new JButton(new ImageIcon("resources/icons/co2class.png"));
@@ -79,7 +86,7 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 			}
 		});
 		
-		add(_contaminationButton);		
+		_toolbar.add(_contaminationButton);		
 		
 		_weatherButton = new JButton(new ImageIcon("resources/icons/weather.png"));
 		_weatherButton.setToolTipText("Add a new weather change event");
@@ -90,9 +97,9 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 				changeWeather();
 			}
 		});
-		add(_weatherButton);
+		_toolbar.add(_weatherButton);
 		
-		addSeparator();
+		_toolbar.addSeparator();
 		
 		_runButton = new JButton(new ImageIcon("resources/icons/run.png"));
 		_runButton.setToolTipText("Run the simulation");
@@ -107,7 +114,7 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 			}			
 		});
 		
-		add(_runButton);
+		_toolbar.add(_runButton);
 		
 		_stopButton = new JButton(new ImageIcon("resources/icons/stop.png"));
 		_stopButton.setToolTipText("Stop the simulation");
@@ -120,21 +127,21 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 			}
 			
 		});
-		add(_stopButton);
+		_toolbar.add(_stopButton);
 		
-		addSeparator();
+		_toolbar.addSeparator();
 		
-		add(new JLabel("Ticks:"));
+		_toolbar.add(new JLabel("Ticks:"));
 		
 		_tickSpinner = new JSpinner(new SpinnerNumberModel(10, 1, null, 1));
 		_tickSpinner.setToolTipText("Ticks to advance");
 		_tickSpinner.setMaximumSize(new Dimension(70, 35));
 		_tickSpinner.setPreferredSize(new Dimension(70, 35));
 		
-		add(_tickSpinner);
+		_toolbar.add(_tickSpinner);
 				
 		//Visual separator indication
-		addSeparator();
+		_toolbar.addSeparator();
 		
 		_closeButton = new JButton(new ImageIcon("resources/icons/exit.png"));
 		//_closeButton.setMaximumSize(new Dimension(50, 50));
@@ -154,8 +161,11 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 			
 		});
 
-		add(Box.createGlue()); 
-		add(_closeButton);
+		_toolbar.add(Box.createGlue()); 
+		_toolbar.add(_closeButton);
+		
+		setLayout(new BorderLayout(0, 0));
+		add(_toolbar, BorderLayout.CENTER);
 	}
 	
 	protected void changeWeather() {
@@ -201,7 +211,12 @@ public class ControlPanel extends JToolBar implements TrafficSimObserver {
 			try {
 				_controller.run(1);
 			} catch (Exception e) {
-				// TODO show error message
+				// As an error dialog is created by whoever observes the controller onError, it is not necessary to do it here.  
+				// If we wanted to have 2 dialogs, just uncomment the following lines.
+
+				//JOptionPane.showMessageDialog(new JFrame(), "Error while executing simulation. Simulation aborted.", "Error",
+				//        JOptionPane.ERROR_MESSAGE);
+				enableToolBar(true);
 				_stopped = true;
 				return;
 			}

@@ -60,6 +60,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 	public void advance() {
 		try {
 			_timeStep++;
+			
 	
 			for(TrafficSimObserver o : _observerList) {
 				//We pass the RoadMap because all of its getters return unmodifiable lists / objects
@@ -83,6 +84,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 				//We pass the RoadMap because all of its getters return unmodifiable lists / objects
 				o.onAdvanceEnd(_roadMap, Collections.unmodifiableList(_eventList), _timeStep);
 			}
+			
 		} catch(Exception exception) {
 			for(TrafficSimObserver o : _observerList) {
 				o.onError(exception.getMessage());

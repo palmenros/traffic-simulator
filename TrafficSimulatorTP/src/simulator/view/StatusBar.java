@@ -81,8 +81,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onError(String err) {
-		
-		
+		_statusLabel.setText("Error: " + err);
 	}
 	
 }
