@@ -52,9 +52,13 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private JSpinner _tickSpinner;
 	private JButton _closeButton;
 	private JToolBar _toolbar;
+	private JFileChooser _fileChooser;
+
 	
 	public ControlPanel(Controller controller)
 	{
+		_fileChooser = new JFileChooser();
+		
 		_controller = controller;
 		_controller.addObserver(this);
 		
@@ -178,12 +182,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		dialog.setVisible(true);
 	}
 
-	protected void loadFile() {
-		JFileChooser fileChooser = new JFileChooser();
-		
+	protected void loadFile() {		
 		try {
-			fileChooser.setCurrentDirectory(new File("resources/examples"));
-			int res = fileChooser.showOpenDialog(this);
+			_fileChooser.setCurrentDirectory(new File("resources/examples"));
+			int res = _fileChooser.showOpenDialog(this);
 			
 			switch(res)
 			{
@@ -193,7 +195,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 					break;
 				case JFileChooser.APPROVE_OPTION:
 					_controller.reset();
-					_controller.loadEvents(new FileInputStream(fileChooser.getSelectedFile()));
+					_controller.loadEvents(new FileInputStream(_fileChooser.getSelectedFile()));
 					break;
 				default:
 				case JFileChooser.ERROR_OPTION:

@@ -50,9 +50,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 				o.onEventAdded(_roadMap, Collections.unmodifiableList(_eventList), e, _timeStep);
 			}
 		} catch(Exception exception) {
-			for(TrafficSimObserver o : _observerList) {
-				o.onError(exception.getMessage());
-			}	
+			notifyOnError(exception.getMessage());
 			throw exception;
 		}
 	}
@@ -86,12 +84,17 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 			}
 			
 		} catch(Exception exception) {
-			for(TrafficSimObserver o : _observerList) {
-				o.onError(exception.getMessage());
-			}	
+			notifyOnError(exception.getMessage());
 			throw exception;
 		}
 	}
+	
+	private void notifyOnError(String err) {
+        for (TrafficSimObserver o : _observerList) {
+        	o.onError(err);
+        }
+	}
+
 	
 	public void reset() {
 		_roadMap.reset();
