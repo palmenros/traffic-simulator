@@ -51,7 +51,7 @@ public class MostCrowdedStrategy implements LightSwitchingStrategy {
 					lengthOfAppropriate=qs.get((currGreen+1+i)%roads.size()).size();
 				}
 			}
-			return appropriateIndex+currGreen+1;
+			return (appropriateIndex+currGreen+1) % roads.size();
 		}
 	}
 

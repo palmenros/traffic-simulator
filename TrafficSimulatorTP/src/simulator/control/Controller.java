@@ -74,8 +74,7 @@ public class Controller {
 			//Print JSON to out
 			PrintStream ps = new PrintStream(out);
 			ps.println(jo);
-			ps.flush();
-			ps.close();			
+			ps.flush();		
 		}
 	}
 	
